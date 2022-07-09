@@ -13,13 +13,14 @@ interface Props {
 
 function ActionCard({ action }: Props) {
   return (
-    <Box data-testid="log-action-item-text" sx={{ maxWidth: 700 }}>
+    <Box data-testid="log-action-item-text">
       <Stack direction="row">
         <Card
-          elevation={10}
+          elevation={0}
           sx={{
-            minWidth: 150,
             pt: 4,
+            minWidth: 150,
+            backgroundColor: (theme) => theme.palette.common.black,
           }}
         >
           {action.type === "Credit" ? (
@@ -29,7 +30,12 @@ function ActionCard({ action }: Props) {
           )}
           <Typography fontSize={25}>{action.type}</Typography>
         </Card>
-        <Card elevation={10}>
+        <Card
+          elevation={0}
+          sx={{
+            backgroundColor: (theme) => theme.palette.common.black,
+          }}
+        >
           <CardContent>
             <Stack
               direction="row"

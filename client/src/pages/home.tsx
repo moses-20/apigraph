@@ -1,8 +1,8 @@
-import { Box, Typography } from "@mui/material";
 import { useEffect } from "react";
+import { Box } from "@mui/material";
 import History from "widgets/history";
+import Filter from "widgets/filter";
 import logs from "data";
-import Search from "widgets/search";
 
 function Home() {
   useEffect(() => {
@@ -10,9 +10,8 @@ function Home() {
   });
 
   return (
-    <Box>
-      <Typography>Home</Typography>
-      <Search />
+    <Box sx={{ flex: 1, width: "100%", my: 5 }}>
+      <Filter />
       <History logs={logs} />
     </Box>
   );

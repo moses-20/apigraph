@@ -1,13 +1,18 @@
-import { PropsWithChildren } from "react";
+import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import Page from "material/page";
 import Main from "material/main";
 import Home from "pages/home";
+import Search from "widgets/search";
 
-function Layout({ children }: PropsWithChildren) {
+function Layout() {
   return (
     <Page>
+      <AppBar elevation={0}>
+        <Toolbar sx={{ justifyContent: "center", pt: 1 }}>
+          <Search />
+        </Toolbar>
+      </AppBar>
       <Main>
-        {children}
         <Home />
       </Main>
     </Page>
