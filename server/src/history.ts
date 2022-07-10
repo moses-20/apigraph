@@ -1,9 +1,12 @@
+import { faker } from "@faker-js/faker";
+
 interface Action {
   id: string;
   logId: string;
   type: string;
   status: string;
   amount: string;
+  party: string;
   narrative: string;
 }
 
@@ -12,45 +15,50 @@ interface Log {
   date: string;
 }
 
-const actions: Action[] = [
-  {
-    id: "1",
-    logId: "1",
-    type: "Credit",
-    status: "Success",
-    amount: "GHS 4000",
-    narrative:
-      "Labore ea exercitation laborum et laboris incididunt anim tempor in et.",
-  },
-  {
-    id: "2",
-    logId: "1",
-    type: "Debit",
-    status: "Pending",
-    amount: "GHS 300",
-    narrative:
-      "Eu aute aliquip qui anim dolor veniam enim pariatur cillum tempor occaecat commodo.",
-  },
-  {
-    id: "3",
-    logId: "2",
-    type: "Credit",
-    status: "Success",
-    amount: "GHS 700",
-    narrative:
-      "Ex exercitation aliqua deserunt consectetur incididunt consequat labore veniam incididunt labore.",
-  },
-];
+const genType = () =>
+  faker.helpers.arrayElement(["Debit", "Credit", "Reversal"]);
+const genStatus = () =>
+  faker.helpers.arrayElement(["Success", "Pending", "Failed"]);
+const genAmount = () => faker.finance.amount(700, 10000, 2, "GHS", true);
+const genLogId = () =>
+  faker.helpers.arrayElement(["1", "2", "3", "4", "5", "6"]);
+const genParty = () => faker.company.companyName();
 
 const logs: Log[] = [
   {
     id: "1",
-    date: "05052022",
+    date: "20220706",
   },
   {
     id: "2",
-    date: "06052022",
+    date: "20220705",
+  },
+  {
+    id: "3",
+    date: "20220704",
+  },
+  {
+    id: "4",
+    date: "20220703",
+  },
+  {
+    id: "5",
+    date: "20220702",
+  },
+  {
+    id: "6",
+    date: "20220701",
   },
 ];
 
-export { actions, logs, Action, Log };
+const actions: Action[] = Array.apply(0, new Array(27)).map((_, idx) => ({
+  id: String(idx),
+  logId: genLogId(),
+  type: genType(),
+  status: genStatus(),
+  party: genParty(),
+  amount: genAmount(),
+  narrative: faker.lorem.lines(1),
+}));
+
+export { actions, logs };

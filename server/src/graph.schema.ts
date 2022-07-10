@@ -15,10 +15,11 @@ const ActionType: GraphQLObjectType = new GraphQLObjectType({
     type: { type: GraphQLString },
     status: { type: GraphQLString },
     amount: { type: GraphQLString },
+    party: { type: GraphQLString },
     narrative: { type: GraphQLString },
     log: {
       type: LogType,
-      resolve(parent, args) {
+      resolve(parent) {
         return _.find(logs, { id: parent.logId });
       },
     },
@@ -32,8 +33,18 @@ const LogType: GraphQLObjectType = new GraphQLObjectType({
     date: { type: GraphQLString },
     actions: {
       type: new GraphQLList(ActionType),
+      args: {
+        type: { type: GraphQLString },
+        status: { type: GraphQLString },
+      },
       resolve(parent, args) {
-        return _.filter(actions, { logId: parent.id });
+        const type = _.filter(actions, { type: args.type });
+        const status = _.filter(actions, { status: args.status });
+        const combined = _.filter(_.union(type, status), { logId: parent.id });
+
+        return combined.length > 0
+          ? combined
+          : _.filter(actions, { logId: parent.id });
       },
     },
   }),
@@ -44,21 +55,15 @@ const RootQuery: GraphQLObjectType = new GraphQLObjectType({
   fields: {
     actions: {
       type: new GraphQLList(ActionType),
-      resolve() {
-        return actions;
+      args: { id: { type: GraphQLString } },
+      resolve(parent, args) {
+        return _.find(actions, { id: args.id });
       },
     },
     logs: {
       type: new GraphQLList(LogType),
       resolve() {
         return logs;
-      },
-    },
-    action: {
-      type: ActionType,
-      args: { id: { type: GraphQLID } },
-      resolve(parent, args) {
-        return _.find(actions, { id: args.id });
       },
     },
     log: {

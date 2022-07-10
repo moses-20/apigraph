@@ -15,6 +15,12 @@ function Layout() {
       <Main>
         <Home />
       </Main>
+      <Box sx={{ maxWidth: 700, mx: "auto", px: 2 }}>
+        <Typography textAlign="center">
+          NOTE: No reference to real data is made; data used is randomly
+          generated. Please disregard any illogical representation
+        </Typography>
+      </Box>
     </Page>
   );
 }

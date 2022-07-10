@@ -7,22 +7,36 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import ActionCard from "./actionCard";
+import { useQuery } from "@apollo/client";
+import { GET_HISTORY } from "queries";
+import { useHomeProvider } from "contexts/home.context";
 
-interface Props {
-  logs: {
-    id: string;
-    date: string;
-    actions: {
-      id: string;
-      status: string;
-      amount: string;
-      type: string;
-      narrative: string;
-    }[];
-  }[];
+interface Action {
+  id: string;
+  status: string;
+  amount: string;
+  type: string;
+  party: string;
+  narrative: string;
 }
 
-function History({ logs }: Props) {
+interface Log {
+  id: string;
+  date: string;
+  actions: Action[];
+}
+
+function History() {
+  const { queryValues } = useHomeProvider();
+  const { loading, error, data } = useQuery(GET_HISTORY);
+
+  // TODO: refetch graphql query when `queryValues` change
+  console.log("QUERY VALUES:", queryValues);
+
+  if (loading) return <div> loading </div>;
+
+  if (error) return <div> merror </div>;
+
   return (
     <Box
       sx={{
@@ -33,9 +47,13 @@ function History({ logs }: Props) {
       }}
     >
       <List data-testid="log-list">
-        {logs.map((log) => (
+        {data.logs.map((log: Log) => (
           <ListItem key={log.id} data-testid="log-item" disablePadding={true}>
-            <List data-testid="log-action" disablePadding={true}>
+            <List
+              data-testid="log-action"
+              disablePadding={true}
+              sx={{ width: "100%" }}
+            >
               <ListSubheader data-testid="log-action-header">
                 <ListItemText
                   primary={dayjs(log.date).format("dddd")}
@@ -49,7 +67,7 @@ function History({ logs }: Props) {
                   }}
                 />
               </ListSubheader>
-              {log.actions.map((action) => (
+              {log.actions.map((action: Action) => (
                 <ActionCard key={`${log.id}-${action.id}`} action={action} />
               ))}
             </List>

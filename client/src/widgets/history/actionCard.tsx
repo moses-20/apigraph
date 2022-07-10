@@ -7,6 +7,7 @@ interface Props {
     status: string;
     amount: string;
     type: string;
+    party: string;
     narrative: string;
   };
 }
@@ -18,21 +19,28 @@ function ActionCard({ action }: Props) {
         <Card
           elevation={0}
           sx={{
-            pt: 4,
-            minWidth: 150,
+            p: 0,
+            width: 150,
             backgroundColor: (theme) => theme.palette.common.black,
           }}
         >
-          {action.type === "Credit" ? (
-            <ArrowDownward color="success" fontSize="large" />
-          ) : (
-            <ArrowUpward color="error" fontSize="large" />
-          )}
-          <Typography fontSize={25}>{action.type}</Typography>
+          <CardContent>
+            <Typography variant="caption" sx={{ display: "block" }}>
+              {action.party}
+            </Typography>
+            {action.type === "Credit" ? (
+              <ArrowDownward color="success" fontSize="large" />
+            ) : (
+              <ArrowUpward color="error" fontSize="large" />
+            )}
+            <Typography fontSize={20}>{action.type}</Typography>
+          </CardContent>
         </Card>
         <Card
           elevation={0}
           sx={{
+            p: 0,
+            flex: 1,
             backgroundColor: (theme) => theme.palette.common.black,
           }}
         >
