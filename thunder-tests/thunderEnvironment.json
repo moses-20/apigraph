@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "7689ad8b-e832-474d-a291-708a1df41743",
+    "name": "apigraph-dev",
+    "default": true,
+    "sortNum": 10000,
+    "created": "2022-07-11T00:22:53.079Z",
+    "modified": "2022-07-11T00:23:15.788Z",
+    "data": [
+      {
+        "name": "baseUrl",
+        "value": "http://localhost:4000/api"
+      }
+    ]
+  }
+]

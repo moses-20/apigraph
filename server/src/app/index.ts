@@ -8,6 +8,11 @@ const app: Express = express();
 app.use(cors());
 app.use(
   "/api",
+  // (req, res, next) => {
+  //   setTimeout(() => {
+  //     res.status(400).send("error");
+  //   }, 5000);
+  // },
   graphqlHTTP({
     schema,
     graphiql: true,

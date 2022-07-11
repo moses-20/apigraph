@@ -1,0 +1,116 @@
+[
+  {
+    "_id": "fa2053a0-7cb8-4d89-bd8c-e681ee90015f",
+    "colId": "0f3d6117-1ec8-4804-9fa6-201a9dd3c4a8",
+    "containerId": "",
+    "name": "All Logs",
+    "url": "http://localhost:4000/api",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2022-07-11T00:22:13.500Z",
+    "modified": "2022-07-11T00:22:13.500Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "graphql",
+      "raw": "",
+      "form": [],
+      "graphql": {
+        "query": "{\n    logs {\n        id\n        date\n        actions{\n            id\n            type\n            status\n            party\n            amount\n            narrative\n        }\n    }\n}"
+      }
+    },
+    "tests": []
+  },
+  {
+    "_id": "aa2c3d3c-0af1-4446-8f76-419eee687d64",
+    "colId": "0f3d6117-1ec8-4804-9fa6-201a9dd3c4a8",
+    "containerId": "",
+    "name": "Action by Type",
+    "url": "{{baseUrl}}",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2022-07-11T00:22:13.501Z",
+    "modified": "2022-07-11T01:16:07.753Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "graphql",
+      "raw": "",
+      "form": [],
+      "graphql": {
+        "query": "query logActionByType($type: [String]){\n    logs {\n        date\n        actions(type: $type){\n            id\n            status\n            party\n            amount\n            narrative\n        }\n    }\n}",
+        "variables": "{\n    \"type\": [\"Debit\"]\n}"
+      }
+    },
+    "tests": []
+  },
+  {
+    "_id": "ce712599-93fa-4d4c-90e3-d3902a673cec",
+    "colId": "0f3d6117-1ec8-4804-9fa6-201a9dd3c4a8",
+    "containerId": "",
+    "name": "Action by Status",
+    "url": "{{baseUrl}}",
+    "method": "GET",
+    "sortNum": 30000,
+    "created": "2022-07-11T00:22:13.502Z",
+    "modified": "2022-07-11T00:22:13.502Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "graphql",
+      "raw": "",
+      "form": [],
+      "graphql": {
+        "query": "query logActionByStatus($status: String){\n    logs {\n        date\n        actions(status: $status){\n            id\n            type\n            party\n            amount\n            narrative\n        }\n    }\n}",
+        "variables": "{\n    \"status\": \"Success\"\n}"
+      }
+    },
+    "tests": []
+  },
+  {
+    "_id": "ce41b388-ed5e-495f-b323-2a5f9914d370",
+    "colId": "0f3d6117-1ec8-4804-9fa6-201a9dd3c4a8",
+    "containerId": "",
+    "name": "Get Action By Id",
+    "url": "{{baseUrl}}",
+    "method": "GET",
+    "sortNum": 40000,
+    "created": "2022-07-11T00:22:13.503Z",
+    "modified": "2022-07-11T00:28:06.531Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "graphql",
+      "raw": "",
+      "form": [],
+      "graphql": {
+        "query": "query getActionById($id: ID){\n    actions(id: $id) {\n        type\n        party\n        amount\n        narrative\n        log {\n            date\n        }\n    }\n}\n",
+        "variables": "{\n    \"id\": 0\n}\n"
+      }
+    },
+    "tests": []
+  },
+  {
+    "_id": "f17e8048-2c3a-4f0e-bd95-e1433e280490",
+    "colId": "0f3d6117-1ec8-4804-9fa6-201a9dd3c4a8",
+    "containerId": "",
+    "name": "All Logs Copy",
+    "url": "http://localhost:4000/api",
+    "method": "GET",
+    "sortNum": 15000,
+    "created": "2022-07-11T04:39:32.123Z",
+    "modified": "2022-07-11T06:38:57.219Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "graphql",
+      "raw": "",
+      "form": [],
+      "graphql": {
+        "query": "query getLogsHistory($param: String){\n    logs {\n        id\n        date\n        actions (param: $param){\n            id\n            type\n            status\n            party\n        }\n    }\n}",
+        "variables": "{\n    \"param\": \"Success\"\n}"
+      }
+    },
+    "tests": []
+  }
+]

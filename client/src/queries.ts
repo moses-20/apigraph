@@ -1,11 +1,11 @@
 import { gql } from "@apollo/client";
 
 const GET_HISTORY = gql`
-  query getHistory {
+  query getLogsHistory($param: String) {
     logs {
       id
       date
-      actions {
+      actions(param: $param) {
         id
         type
         status

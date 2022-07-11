@@ -34,17 +34,37 @@ const LogType: GraphQLObjectType = new GraphQLObjectType({
     actions: {
       type: new GraphQLList(ActionType),
       args: {
-        type: { type: GraphQLString },
-        status: { type: GraphQLString },
+        param: { type: GraphQLString },
       },
       resolve(parent, args) {
-        const type = _.filter(actions, { type: args.type });
-        const status = _.filter(actions, { status: args.status });
-        const combined = _.filter(_.union(type, status), { logId: parent.id });
+        const paramTypes = {
+          debit: "Debit",
+          credit: "Credit",
+          reversal: "Reversal",
+          success: "Success",
+          failed: "Failed",
+          pending: "Pending",
+        };
 
-        return combined.length > 0
-          ? combined
-          : _.filter(actions, { logId: parent.id });
+        switch (args.param) {
+          case paramTypes.credit:
+            return _.filter(actions, {
+              logId: parent.id,
+              type: paramTypes.credit,
+            });
+          case paramTypes.debit:
+            return _.filter(actions, {
+              logId: parent.id,
+              type: paramTypes.debit,
+            });
+          case paramTypes.reversal:
+            return _.filter(actions, {
+              logId: parent.id,
+              type: paramTypes.reversal,
+            });
+          default:
+            return _.filter(actions, { logId: parent.id });
+        }
       },
     },
   }),
@@ -57,7 +77,7 @@ const RootQuery: GraphQLObjectType = new GraphQLObjectType({
       type: new GraphQLList(ActionType),
       args: { id: { type: GraphQLString } },
       resolve(parent, args) {
-        return _.find(actions, { id: args.id });
+        return actions;
       },
     },
     logs: {
