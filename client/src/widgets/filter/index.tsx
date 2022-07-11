@@ -1,4 +1,4 @@
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { FilterList, FilterListItem } from "material/filterlist";
 import { useHomeProvider } from "contexts/home.context";
 
@@ -12,7 +12,7 @@ const arr: string[] = [
 ];
 
 function Filter() {
-  const { queryValues, handleQueryValues, handleFiltersOn } = useHomeProvider();
+  const { filterString, handleFilters } = useHomeProvider();
 
   return (
     <Box sx={{ maxWidth: 700, mx: "auto", mb: 3 }}>
@@ -20,8 +20,8 @@ function Filter() {
         {arr.map((itm, idx) => (
           <FilterListItem
             key={idx}
-            selected={queryValues.includes(itm)}
-            onClick={() => handleQueryValues(itm)}
+            selected={filterString === itm ? true : false}
+            onClick={() => handleFilters(itm)}
           >
             {itm}
           </FilterListItem>
@@ -29,12 +29,13 @@ function Filter() {
       </FilterList>
       <Stack
         direction="row"
-        justifyContent="flex-end"
-        sx={{ display: queryValues.length > 0 ? "flex" : "none" }}
+        justifyContent="space-between"
+        sx={{ display: filterString ? "flex" : "none", pt: 2 }}
       >
-        <Button sx={{ mt: 2 }} onClick={handleFiltersOn}>
-          Clear Filters
-        </Button>
+        <Typography variant="h3" sx={{ mt: 1 }}>
+          Filter by {filterString}
+        </Typography>
+        <Button onClick={() => handleFilters()}>Clear Filters</Button>
       </Stack>
     </Box>
   );

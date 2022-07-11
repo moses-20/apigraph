@@ -11,40 +11,34 @@ interface ContextValues {
     ) => Promise<ApolloQueryResult<any>>;
     error?: ApolloError | undefined;
   };
-  queryValues: string[] | never;
-  handleQueryValues: (val: string) => void;
-  handleFiltersOn: () => void;
+  filterString: string | null;
+  handleFilters: (val?: string) => void;
 }
 
 const HomeContext = createContext({} as ContextValues);
 
 function HomeProvider({ children }: PropsWithChildren) {
-  const [queryValues, setQueryValues] = useState<string[] | never>([]);
+  const [filterString, setFilterString] = useState<string | null>(null);
 
   const logData = useQuery(GET_HISTORY, {
     variables: {},
   });
 
-  const handleQueryValues = (val: string) => {
-    logData.refetch({ param: val });
+  const handleFilters = (val?: string) => {
+    if (val) {
+      logData.refetch({ param: val });
+      setFilterString(val);
+      return;
+    }
 
-    // setQueryValues((prev) =>
-    //   prev.indexOf(val) === -1
-    //     ? [val, ...prev]
-    //     : prev.filter((item) => item !== val)
-    // );
-  };
-
-  const handleFiltersOn = () => {
-    // setQueryValues([]);
     logData.refetch({ param: "none" });
+    setFilterString(null);
   };
 
   const values: ContextValues = {
     logData,
-    queryValues,
-    handleQueryValues,
-    handleFiltersOn,
+    filterString,
+    handleFilters,
   };
 
   return <HomeContext.Provider value={values}>{children}</HomeContext.Provider>;

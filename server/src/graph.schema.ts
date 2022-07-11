@@ -1,9 +1,9 @@
 import {
   GraphQLID,
   GraphQLList,
-  GraphQLObjectType,
   GraphQLSchema,
   GraphQLString,
+  GraphQLObjectType,
 } from "graphql";
 import _ from "lodash";
 import { actions, logs } from "history";
@@ -61,6 +61,21 @@ const LogType: GraphQLObjectType = new GraphQLObjectType({
             return _.filter(actions, {
               logId: parent.id,
               type: paramTypes.reversal,
+            });
+          case paramTypes.success:
+            return _.filter(actions, {
+              logId: parent.id,
+              status: paramTypes.success,
+            });
+          case paramTypes.failed:
+            return _.filter(actions, {
+              logId: parent.id,
+              status: paramTypes.failed,
+            });
+          case paramTypes.pending:
+            return _.filter(actions, {
+              logId: parent.id,
+              status: paramTypes.pending,
             });
           default:
             return _.filter(actions, { logId: parent.id });
