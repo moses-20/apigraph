@@ -1,0 +1,105 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "apigraph",
+  "dateExported": "2022-07-10T18:02:41.902Z",
+  "version": "1.1",
+  "folders": [],
+  "requests": [
+    {
+      "_id": "73374214-d841-45bb-8cd0-77881e3ec59d",
+      "colId": "e1747a6d-dc7a-4884-ac96-81af763fd15e",
+      "containerId": "",
+      "name": "All Logs",
+      "url": "http://localhost:4000/api",
+      "method": "GET",
+      "sortNum": 10000,
+      "created": "2022-07-10T14:48:59.268Z",
+      "modified": "2022-07-10T17:15:10.245Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "graphql",
+        "raw": "",
+        "form": [],
+        "graphql": {
+          "query": "{\n    logs {\n        id\n        date\n        actions{\n            id\n            type\n            status\n            party\n            amount\n            narrative\n        }\n    }\n}"
+        }
+      },
+      "tests": []
+    },
+    {
+      "_id": "66a3f711-2a14-4ea9-8bad-3f6b6d7933cc",
+      "colId": "e1747a6d-dc7a-4884-ac96-81af763fd15e",
+      "containerId": "",
+      "name": "Action by Type",
+      "url": "{{baseUrl}}",
+      "method": "GET",
+      "sortNum": 20000,
+      "created": "2022-07-10T14:49:34.552Z",
+      "modified": "2022-07-10T17:16:52.638Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "graphql",
+        "raw": "",
+        "form": [],
+        "graphql": {
+          "query": "query logActionByType($type: String){\n    logs {\n        date\n        actions(type: $type){\n            id\n            status\n            party\n            amount\n            narrative\n        }\n    }\n}",
+          "variables": "{\n    \"type\": \"Debit\"\n}"
+        }
+      },
+      "tests": []
+    },
+    {
+      "_id": "a833b5bf-69aa-4c3a-bb3e-1d8f3a5ee319",
+      "colId": "e1747a6d-dc7a-4884-ac96-81af763fd15e",
+      "containerId": "",
+      "name": "Action by Status",
+      "url": "{{baseUrl}}",
+      "method": "GET",
+      "sortNum": 30000,
+      "created": "2022-07-10T17:17:08.881Z",
+      "modified": "2022-07-10T17:18:36.739Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "graphql",
+        "raw": "",
+        "form": [],
+        "graphql": {
+          "query": "query logActionByStatus($status: String){\n    logs {\n        date\n        actions(status: $status){\n            id\n            type\n            party\n            amount\n            narrative\n        }\n    }\n}",
+          "variables": "{\n    \"status\": \"Success\"\n}"
+        }
+      },
+      "tests": []
+    },
+    {
+      "_id": "7db6cd1c-108b-479e-ba45-23b2bb1abf2e",
+      "colId": "e1747a6d-dc7a-4884-ac96-81af763fd15e",
+      "containerId": "",
+      "name": "Get Action By Id",
+      "url": "{{baseUrl}}",
+      "method": "GET",
+      "sortNum": 40000,
+      "created": "2022-07-10T17:25:07.389Z",
+      "modified": "2022-07-10T17:40:28.463Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "graphql",
+        "raw": "",
+        "form": [],
+        "graphql": {
+          "query": "query getActionById($id: ID){\n    action(id: $id) {\n        type\n        party\n        amount\n        narrative\n        log {\n            date\n        }\n    }\n}\n",
+          "variables": "{\n    \"id\": 0\n}\n"
+        }
+      },
+      "tests": []
+    }
+  ],
+  "settings": {
+    "headers": [],
+    "tests": [],
+    "envId": "116a251c-8cea-4673-9d30-e6b760c93630"
+  }
+}
