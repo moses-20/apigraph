@@ -1,9 +1,12 @@
+import { randomUUID } from "crypto";
 import { faker } from "@faker-js/faker";
 
 interface Action {
   id: string;
+  ref: string;
   logId: string;
   type: string;
+  trxn: string;
   status: string;
   amount: string;
   party: string;
@@ -53,7 +56,11 @@ const logs: Log[] = [
 
 const actions: Action[] = Array.apply(0, new Array(27)).map((_, idx) => ({
   id: String(idx),
+  ref: faker.random.alphaNumeric(7, {
+    casing: "mixed",
+  }),
   logId: genLogId(),
+  trxn: randomUUID(),
   type: genType(),
   status: genStatus(),
   party: genParty(),

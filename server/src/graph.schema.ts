@@ -5,22 +5,29 @@ import {
   GraphQLString,
   GraphQLObjectType,
 } from "graphql";
-import _ from "lodash";
-import { actions, logs } from "history";
+import {
+  getAllActions,
+  getActionsByLogId,
+  getFilteredActions,
+  getAllLogs,
+  getLogById,
+} from "controllers/log.controller";
 
 const ActionType: GraphQLObjectType = new GraphQLObjectType({
   name: "Action",
   fields: () => ({
     id: { type: GraphQLID },
     type: { type: GraphQLString },
+    ref: { type: GraphQLString },
+    trxn: { type: GraphQLString },
     status: { type: GraphQLString },
     amount: { type: GraphQLString },
     party: { type: GraphQLString },
     narrative: { type: GraphQLString },
     log: {
       type: LogType,
-      resolve(parent) {
-        return _.find(logs, { id: parent.logId });
+      async resolve(parent) {
+        return getLogById(parent.logId);
       },
     },
   }),
@@ -34,52 +41,15 @@ const LogType: GraphQLObjectType = new GraphQLObjectType({
     actions: {
       type: new GraphQLList(ActionType),
       args: {
-        param: { type: GraphQLString },
+        type: { type: GraphQLString },
+        status: { type: GraphQLString },
       },
-      resolve(parent, args) {
-        const paramTypes = {
-          debit: "Debit",
-          credit: "Credit",
-          reversal: "Reversal",
-          success: "Success",
-          failed: "Failed",
-          pending: "Pending",
-        };
-
-        switch (args.param) {
-          case paramTypes.credit:
-            return _.filter(actions, {
-              logId: parent.id,
-              type: paramTypes.credit,
-            });
-          case paramTypes.debit:
-            return _.filter(actions, {
-              logId: parent.id,
-              type: paramTypes.debit,
-            });
-          case paramTypes.reversal:
-            return _.filter(actions, {
-              logId: parent.id,
-              type: paramTypes.reversal,
-            });
-          case paramTypes.success:
-            return _.filter(actions, {
-              logId: parent.id,
-              status: paramTypes.success,
-            });
-          case paramTypes.failed:
-            return _.filter(actions, {
-              logId: parent.id,
-              status: paramTypes.failed,
-            });
-          case paramTypes.pending:
-            return _.filter(actions, {
-              logId: parent.id,
-              status: paramTypes.pending,
-            });
-          default:
-            return _.filter(actions, { logId: parent.id });
+      async resolve(parent, args) {
+        if (args.type || args.status) {
+          return await getFilteredActions(parent.id, args.type, args.status);
         }
+
+        return await getActionsByLogId(parent.id);
       },
     },
   }),
@@ -90,22 +60,14 @@ const RootQuery: GraphQLObjectType = new GraphQLObjectType({
   fields: {
     actions: {
       type: new GraphQLList(ActionType),
-      args: { id: { type: GraphQLString } },
-      resolve(parent, args) {
-        return actions;
+      async resolve() {
+        return await getAllActions();
       },
     },
     logs: {
       type: new GraphQLList(LogType),
-      resolve() {
-        return logs;
-      },
-    },
-    log: {
-      type: LogType,
-      args: { id: { type: GraphQLID } },
-      resolve(parent, args) {
-        return _.find(logs, { id: args.id });
+      async resolve() {
+        return await getAllLogs();
       },
     },
   },

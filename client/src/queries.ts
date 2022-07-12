@@ -1,12 +1,14 @@
 import { gql } from "@apollo/client";
 
-const GET_HISTORY = gql`
-  query getLogsHistory($param: String) {
+export const GET_HISTORY = gql`
+  query {
     logs {
       id
       date
-      actions(param: $param) {
+      actions {
         id
+        ref
+        trxn
         type
         status
         party
@@ -17,4 +19,21 @@ const GET_HISTORY = gql`
   }
 `;
 
-export { GET_HISTORY };
+export const GET_FILTERED_HISTORY = gql`
+  query getFilteredLogActions($type: String, $status: String) {
+    logs {
+      id
+      date
+      actions(type: $type, status: $status) {
+        id
+        ref
+        trxn
+        type
+        status
+        party
+        amount
+        narrative
+      }
+    }
+  }
+`;
