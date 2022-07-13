@@ -1,0 +1,113 @@
+{
+	"info": {
+		"_postman_id": "c0295ad1-8e92-4fcf-9e2f-9cb3d3f7adf9",
+		"name": "Transactions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "13658251"
+	},
+	"item": [
+		{
+			"name": "All Logs",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "{\n    logs {\n        id\n        date\n        actions{\n            id\n            ref\n            trxn\n            type\n            status\n            party\n            amount\n            narrative\n        }\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": "{{baseUrl}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Logs Filtered Actions",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query getFilteredLogActions($type: String, $status: String){\n    logs {\n        id\n        date\n        actions(type: $type, status: $status){\n            id\n            ref\n            trxn\n            type\n            status\n            party\n            amount\n            narrative\n        }\n    }\n}",
+						"variables": "{\n    \"type\": \"Credit\",\n    \"status\": \"Success\"\n}"
+					}
+				},
+				"url": "{{baseUrl}}"
+			},
+			"response": []
+		},
+		{
+			"name": "All Actions",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "{\n    actions {\n        id\n        ref\n        trxn\n        type\n        status\n        party\n        amount\n        narrative\n    }\n}",
+						"variables": "{\n    \"status\": \"Success\"\n}"
+					}
+				},
+				"url": "{{baseUrl}}"
+			},
+			"response": []
+		},
+		{
+			"name": "All Actions Copy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query ($query: String){\n    actionsBySearch(query: $query) {\n        id\n        ref\n        trxn\n        type\n        status\n        party\n        amount\n        narrative\n        \n    }\n}",
+						"variables": "{\n    \"query\": \"Jenkins\"\n}"
+					}
+				},
+				"url": "{{baseUrl}}"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:4000/api",
+			"type": "string"
+		}
+	]
+}

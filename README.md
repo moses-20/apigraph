@@ -70,3 +70,28 @@ I had to decide between Sequelize and Prisma for object-relational mapping. Sequ
 
 Challenges!
 Working on this app has been moderately challenging. But for the funny part, I got stuck trying to fix an 'error' reported by Typscript for hours... only to realise that I had the file extension as `.ts` instead of `.tsx`. I can guess your face right now will be just like mine 🙄. Well, I solved that thanks to a bowl-full of Waakye 😂😂
+
+### Clone and Setup
+
+#### Prerequisites
+
+1. Install NodeJS on your system
+2. Install Yarn Package Manager
+3. Install Postgres for your system
+4. Git (optional)
+
+#### Steps
+
+1. [Download the source](https://github.com/moses-20/apigraph/archive/refs/heads/main.zip) and extract the zip file or clone by running `git clone https://github.com/moses-20/apigraph.git`
+2. Open up the folder with your editor
+3. Open the terminal with the folder as the working directory
+4. Run `cd client` and `yarn install`
+5. After that, change into the server folder `cd ../server` and run `yarn install`
+6. Create `.env` file in the root of ther server folder and add a postgres database url like so `DATABASE_URL=postgresql://USERNAME:PASSWORD@SERVER:PORT/DATABASE`. Replace USERNAME, PASSWORD, SERVER, PORT and DATABASE accordingly
+7. Seed the Database by running `yarn prisma migrate dev --name init`
+8. Start the server with `yarn dev`
+9. Open another terminal and change into the client folder.
+10. Run `yarn start` to start the frontend
+11. You can import the `apigraph.postman_collection.json` file into postman and run the GraphQL queries
+12. If you use VS Code, you can install ThunderClient extension and run the GraphQL queries
+13. Feedbacks and comments are welcome
