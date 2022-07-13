@@ -59,6 +59,8 @@ export async function getFilteredActions(
 }
 
 export async function getActionsBySearch(query: string) {
+  const searchString = query.split(" ").join(" & ");
+
   try {
     return await prisma.action.findMany({
       include: {
@@ -68,27 +70,27 @@ export async function getActionsBySearch(query: string) {
         OR: [
           {
             ref: {
-              search: query,
+              search: searchString,
             },
           },
           {
             narrative: {
-              search: query,
+              search: searchString,
             },
           },
           {
             amount: {
-              search: query,
+              search: searchString,
             },
           },
           {
             party: {
-              search: query,
+              search: searchString,
             },
           },
           {
             trxn: {
-              search: query,
+              search: searchString,
             },
           },
         ],
