@@ -1,7 +1,7 @@
 import { Box, styled, BoxProps } from "@mui/material";
 
 interface FilterListItemProps extends BoxProps {
-  selected?: boolean;
+  active?: boolean;
 }
 
 const FilterList = styled(Box)({
@@ -15,7 +15,7 @@ const FilterList = styled(Box)({
 });
 
 const FilterListItem = styled(Box)<FilterListItemProps>(
-  ({ theme, selected }) => ({
+  ({ theme, active }) => ({
     display: "inline-block",
     minWidth: 150,
     margin: "0 8px",
@@ -29,9 +29,11 @@ const FilterListItem = styled(Box)<FilterListItemProps>(
     "&:hover": {
       backgroundColor: theme.palette.background.paper,
     },
-    ...(selected && {
+    ...(active && {
+      pointerEvents: "none",
       color: theme.palette.info.light,
       borderBottomColor: theme.palette.info.main,
+      backgroundColor: theme.palette.background.default,
     }),
   })
 );

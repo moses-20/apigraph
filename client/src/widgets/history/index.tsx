@@ -10,27 +10,14 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import ActionCard from "./actionCard";
-import { useHomeProvider } from "contexts/home.context";
-
-interface Action {
-  id: string;
-  status: string;
-  amount: string;
-  type: string;
-  party: string;
-  narrative: string;
-}
-
-interface Log {
-  id: string;
-  date: string;
-  actions: Action[];
-}
+import { Action, Log } from "types";
+import { useQuery } from "@apollo/client";
+import { GET_LOG_HISTORY } from "apollo/queries";
 
 function History() {
-  const {
-    logData: { loading, error, data },
-  } = useHomeProvider();
+  const { loading, error, data } = useQuery(GET_LOG_HISTORY, {
+    variables: {},
+  });
 
   if (loading)
     return (

@@ -1,41 +1,73 @@
+import { useState } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { FilterList, FilterListItem } from "material/filterlist";
-import { useHomeProvider } from "contexts/home.context";
+import { logActionStatusVar, logActionTypeVar } from "apollo/variables";
 
-const arr: string[] = [
-  "Credit",
-  "Debit",
-  "Reversal",
-  "Success",
-  "Pending",
-  "Failed",
+const filterGroups: { label: string; group: string }[] = [
+  { label: "Credit", group: "type" },
+  { label: "Debit", group: "type" },
+  { label: "Reversal", group: "type" },
+  { label: "Success", group: "status" },
+  { label: "Failed", group: "status" },
+  { label: "Pending", group: "status" },
 ];
 
 function Filter() {
-  const { filterString, handleFilters } = useHomeProvider();
+  const [activeFilters, setActiveFilters] = useState<any>({});
+
+  const setFilters = (group: string, label: string) => {
+    setActiveFilters((prev: any) => ({
+      ...prev,
+      [group]: label,
+    }));
+
+    switch (group) {
+      case "type":
+        logActionTypeVar(label);
+        break;
+      case "status":
+        logActionStatusVar(label);
+        break;
+      default:
+        logActionTypeVar("");
+        logActionStatusVar("");
+        break;
+    }
+  };
+
+  const clearFilters = () => {
+    setActiveFilters({});
+    logActionTypeVar("");
+    logActionStatusVar("");
+  };
 
   return (
     <Box sx={{ maxWidth: 700, mx: "auto", mb: 3 }}>
       <FilterList>
-        {arr.map((itm, idx) => (
+        {filterGroups.map((itm, idx) => (
           <FilterListItem
             key={idx}
-            selected={filterString === itm ? true : false}
-            onClick={() => handleFilters(itm)}
+            active={activeFilters[itm.group] === itm.label}
+            onClick={() => {
+              setFilters(itm.group, itm.label);
+            }}
           >
-            {itm}
+            {itm.label}
           </FilterListItem>
         ))}
       </FilterList>
       <Stack
         direction="row"
         justifyContent="space-between"
-        sx={{ display: filterString ? "flex" : "none", pt: 2 }}
+        sx={{
+          display: Object.keys(activeFilters).length > 0 ? "flex" : "none",
+          pt: 2,
+        }}
       >
-        <Typography variant="h3" sx={{ mt: 1 }}>
-          Filter by {filterString}
+        <Typography variant="body2" sx={{ mt: 1 }}>
+          Filter by {Object.values(activeFilters).reverse().join(", ")}
         </Typography>
-        <Button onClick={() => handleFilters()}>Clear Filters</Button>
+        <Button onClick={() => clearFilters()}>Clear Filters</Button>
       </Stack>
     </Box>
   );
