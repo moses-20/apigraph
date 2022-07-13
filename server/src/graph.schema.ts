@@ -9,9 +9,10 @@ import {
   getAllActions,
   getActionsByLogId,
   getFilteredActions,
+  getActionsBySearch,
   getAllLogs,
   getLogById,
-} from "controllers/log.controller";
+} from "controllers";
 
 const ActionType: GraphQLObjectType = new GraphQLObjectType({
   name: "Action",
@@ -68,6 +69,15 @@ const RootQuery: GraphQLObjectType = new GraphQLObjectType({
       type: new GraphQLList(LogType),
       async resolve() {
         return await getAllLogs();
+      },
+    },
+    actionsBySearch: {
+      type: new GraphQLList(ActionType),
+      args: {
+        query: { type: GraphQLString },
+      },
+      async resolve(parent, args) {
+        return await getActionsBySearch(args.query);
       },
     },
   },
