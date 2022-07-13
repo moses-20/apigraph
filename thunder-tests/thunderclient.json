@@ -66,5 +66,28 @@
       }
     },
     "tests": []
+  },
+  {
+    "_id": "0ab8fdda-f790-4242-81b5-5547d94baacd",
+    "colId": "0f3d6117-1ec8-4804-9fa6-201a9dd3c4a8",
+    "containerId": "",
+    "name": "Actions by Search",
+    "url": "{{baseUrl}}",
+    "method": "GET",
+    "sortNum": 40000,
+    "created": "2022-07-13T13:36:59.997Z",
+    "modified": "2022-07-13T14:14:01.278Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "graphql",
+      "raw": "",
+      "form": [],
+      "graphql": {
+        "query": "query ($query: String){\n    actionsBySearch(query: $query) {\n        id\n        ref\n        trxn\n        type\n        status\n        party\n        amount\n        narrative\n        \n    }\n}",
+        "variables": "{\n    \"query\": \"Jenkins\"\n}"
+      }
+    },
+    "tests": []
   }
 ]

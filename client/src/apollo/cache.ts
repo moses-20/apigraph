@@ -1,5 +1,9 @@
 import { InMemoryCache } from "@apollo/client";
-import { logActionStatusVar, logActionTypeVar } from "./variables";
+import {
+  logActionStatusVar,
+  logActionTypeVar,
+  searchQueryVar,
+} from "./variables";
 
 export default new InMemoryCache({
   typePolicies: {
@@ -13,6 +17,11 @@ export default new InMemoryCache({
         logActionStatus: {
           read() {
             return logActionStatusVar();
+          },
+        },
+        searchQuery: {
+          read() {
+            return searchQueryVar();
           },
         },
       },

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { FilterList, FilterListItem } from "material/filterlist";
 import { logActionStatusVar, logActionTypeVar } from "apollo/variables";
+import { useAppContext } from "context/app.context";
 
 const filterGroups: { label: string; group: string }[] = [
   { label: "Credit", group: "type" },
@@ -13,6 +14,7 @@ const filterGroups: { label: string; group: string }[] = [
 ];
 
 function Filter() {
+  const { searchMode } = useAppContext();
   const [activeFilters, setActiveFilters] = useState<any>({});
 
   const setFilters = (group: string, label: string) => {
@@ -40,6 +42,10 @@ function Filter() {
     logActionTypeVar("");
     logActionStatusVar("");
   };
+
+  if (searchMode) {
+    return null;
+  }
 
   return (
     <Box sx={{ maxWidth: 700, mx: "auto", mb: 3 }}>

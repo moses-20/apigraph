@@ -3,6 +3,7 @@ import { ApolloClient, ApolloProvider } from "@apollo/client";
 import cache from "apollo/cache";
 import Layout from "layout";
 import theme from "theme";
+import { AppProvider } from "context/app.context";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/api",
@@ -14,7 +15,9 @@ function App() {
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Layout />
+        <AppProvider>
+          <Layout />
+        </AppProvider>
       </ThemeProvider>
     </ApolloProvider>
   );

@@ -20,3 +20,19 @@ export const GET_LOG_HISTORY = gql`
     }
   }
 `;
+
+export const GET_ACTIONS_BY_SEARCH = gql`
+  query ($query: String) {
+    searchQuery @client @export(as: "query")
+    actionsBySearch(query: $query) {
+      id
+      ref
+      trxn
+      type
+      status
+      party
+      amount
+      narrative
+    }
+  }
+`;

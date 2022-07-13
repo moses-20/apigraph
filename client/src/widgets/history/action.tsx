@@ -1,15 +1,9 @@
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 import { Box, Card, CardContent, Stack, Typography } from "@mui/material";
+import { Action } from "types";
 
 interface Props {
-  action: {
-    id: string;
-    status: string;
-    amount: string;
-    type: string;
-    party: string;
-    narrative: string;
-  };
+  action: Action;
 }
 
 function ActionCard({ action }: Props) {
